@@ -9,6 +9,10 @@ const app = express();
 // Importa nossa conexão com o banco
 const sequelize = require('./config/database');
 
+// Importando as rotas 
+const userRoutes = require('./routes/users');
+
+
 // Importa os models 
 require('./models/Produto');   
 require('./models/Usuario'); 
@@ -35,10 +39,8 @@ const productRoutes = require('./routes/products');
 app.use('/products', productRoutes);
  */
 
-// Rota básica de teste
-app.get('/', (req, res) => {
-  res.send('Servidor rodando!');
-});
+app.use('/users', userRoutes);
+
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3000;
