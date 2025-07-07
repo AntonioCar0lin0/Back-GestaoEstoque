@@ -1,14 +1,15 @@
 /************************************************************
   Inicializa a aplicação e carrega as rotas da API
  ************************************************************/
-require('dotenv').config(); // ← Adicione isso no início
+require('dotenv').config(); 
 
-  const express = require('express');
+const express = require('express');
 const app = express();
 
-
-// Importa nossa conexão com o banco e models
+// Importa nossa conexão com o banco
 const sequelize = require('./config/database');
+
+// Importa os models 
 require('./models/Produto');   
 require('./models/Usuario'); 
 require('./models/Venda'); 
@@ -33,8 +34,6 @@ const productRoutes = require('./routes/products');
   //Todas as rotas definidas em productRoutes vão ter como prefixo "/products"
 app.use('/products', productRoutes);
  */
-
-
 
 // Rota básica de teste
 app.get('/', (req, res) => {
