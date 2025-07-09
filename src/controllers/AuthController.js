@@ -1,15 +1,9 @@
-/************************************************************
- * ARQUIVO: src/controllers/AuthController.js
- * RESPONSÁVEL POR: Registro e login de usuários com JWT
- ************************************************************/
 const jwt       = require('jsonwebtoken');
 const Usuario   = require('../models/Usuario');   // modelo Sequelize
 require('dotenv').config();                       // garante JWT_SECRET
 
 module.exports = {
-  /* ========================================================
-   * POST /auth/register
-   * ====================================================== */
+  //  POST /auth/register
   async register(req, res) {
     try {
       const {
@@ -21,13 +15,13 @@ module.exports = {
         return res.status(400).json({ error: 'Campos obrigatórios faltando.' });
       }
 
-      /* Impede CPF duplicado ------------------------------------------- */
+      // Impede CPF duplicado
       const jaExiste = await Usuario.findOne({ where: { cpf } });
       if (jaExiste) {
         return res.status(409).json({ error: 'CPF já cadastrado.' });
       }
 
-      /* Cria usuário (hook do modelo faz o hash da senha) --------------- */
+      // Cria usuário (hook do modelo faz o hash da senha)
       const usuario = await Usuario.create({
         nome, cpf, email, password,
         data_nascimento, rua, cidade, bairro, pais,
@@ -42,9 +36,8 @@ module.exports = {
     }
   },
 
-  /* ========================================================
-   * POST /auth/login
-   * ====================================================== */
+  //POST /auth/login
+
   async login(req, res) {
     try {
       const { cpf, password } = req.body;
