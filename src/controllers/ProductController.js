@@ -6,5 +6,5 @@ const Product = require('../models/Produto');
 const { Op } = require('sequelize');
 
 module.exports = {
-  // Adicionar aqui a lógica de negócio 
+  // Adicionar aqui a lógica de negócio quando estiver pronto
 };
