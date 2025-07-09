@@ -4,15 +4,16 @@
  ************************************************************/
 const express = require('express');
 const router = express.Router();
+const auth = require('../middlewares/authMiddleware.js')
 
 // Importar nosso controller
-const UserController = require('../controllers/UserController');
+const UserController = require('../controllers/UserController.js');
 
 // Cria um novo usuário
 router.post('/', UserController.create);
 
 //Retorna todos os usuários
-router.get('/', UserController.findAll);
+router.get('/', auth, UserController.findAll);
 
 //Buscar usuários por ID
 router.get('/:id', UserController.findById);

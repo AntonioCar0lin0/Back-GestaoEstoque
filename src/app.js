@@ -2,9 +2,10 @@
   Inicializa a aplicação e carrega as rotas da API
  ************************************************************/
 require('dotenv').config(); 
-
+const authRoutes = require('./routes/auth');
 const express = require('express');
 const app = express();
+
 
 // Importa nossa conexão com o banco
 const sequelize = require('./config/database');
@@ -31,6 +32,7 @@ sequelize.sync({ force: true })
 // Configura o Express para interpretar JSON do body
 app.use(express.json());
 
+app.use('/auth', authRoutes);
 /**********************
  * Exemplo para quando colocarmos em produção*
    //Importa e usa as rotas de produto
