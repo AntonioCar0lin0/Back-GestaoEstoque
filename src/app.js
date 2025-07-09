@@ -2,7 +2,6 @@
   Inicializa a aplicação e carrega as rotas da API
  ************************************************************/
 require('dotenv').config(); 
-const authRoutes = require('./routes/auth');
 const express = require('express');
 const app = express();
 
@@ -12,7 +11,8 @@ const sequelize = require('./config/database');
 
 // Importando as rotas 
 const userRoutes = require('./routes/users');
-
+const productsRoutes = require('./routes/products');
+const authRoutes = require('./routes/auth');
 
 // Importa os models 
 require('./models/Produto');   
@@ -32,17 +32,11 @@ sequelize.sync({ force: true })
 // Configura o Express para interpretar JSON do body
 app.use(express.json());
 
+
+// Aplicando a utilização das rotas
 app.use('/auth', authRoutes);
-/**********************
- * Exemplo para quando colocarmos em produção*
-   //Importa e usa as rotas de produto
-const productRoutes = require('./routes/products');
-  //Todas as rotas definidas em productRoutes vão ter como prefixo "/products"
-app.use('/products', productRoutes);
- */
-
 app.use('/users', userRoutes);
-
+app.use('/produucts', productsRoutes)
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3000;
