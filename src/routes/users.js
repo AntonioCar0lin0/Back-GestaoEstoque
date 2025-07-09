@@ -13,7 +13,7 @@ const UserController = require('../controllers/UserController.js');
 router.post('/', UserController.create);
 
 //Retorna todos os usuários
-router.get('/', auth, UserController.findAll);
+router.get('/', UserController.findAll);
 
 //Buscar usuários por ID
 router.get('/:id', UserController.findById);
