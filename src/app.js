@@ -36,7 +36,7 @@ app.use(express.json());
 // Aplicando a utilização das rotas
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-app.use('/produucts', productsRoutes)
+app.use('/products', productsRoutes)
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3000;
