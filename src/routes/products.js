@@ -16,16 +16,15 @@ router.post('/', ProductController.createProduct);
 router.get('/', ProductController.getAllProducts)
 
 //Busca produtos por ID
-router.get('/id', ProductController.getProductById)
+router.get('/:id', ProductController.getProductById)
 
 //Atualizar um produto por ID
-router.put('/id', ProductController.updateProduct)
+router.put('/:id', ProductController.updateProduct)
 
 //Deleta um produto por ID 
-router.delete('/id', ProductController.deleteProduct)
+router.delete('/:id', ProductController.deleteProduct)
 
 
 // Exportamos o router para ser usado no app.js
 module.exports = router;
 
-//teste
