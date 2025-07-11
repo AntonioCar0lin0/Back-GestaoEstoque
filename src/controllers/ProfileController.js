@@ -6,7 +6,7 @@ exports.getProfile = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.userId);
     if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado.' });
-    return res.json(usuario); // defaultScope já esconde password/reset_*
+    return res.json(usuario);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
