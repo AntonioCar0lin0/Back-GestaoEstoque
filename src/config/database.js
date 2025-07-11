@@ -18,6 +18,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     }
   }
 });
+
 // Teste de conexão padrão e mensagem de erro
 sequelize
   .authenticate()
