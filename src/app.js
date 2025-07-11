@@ -14,7 +14,10 @@ const sequelize = require('./config/database');
 // Importando as rotas 
 const userRoutes = require('./routes/users');
 const productsRoutes = require('./routes/products');
+const profileRoutes = require('./routes/profile');
 const authRoutes = require('./routes/auth');
+const categoryRoutes = require('./routes/category');
+
 
 // Importa os models 
 require('./models/Produto');
@@ -44,6 +47,10 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/products', productsRoutes)
+app.use('/api/user', profileRoutes);
+app.use('/api', categoryRoutes);
+
+
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3001;

@@ -12,6 +12,12 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  email:{
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate:{isEmail: true},
+  },
   cpf: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -40,21 +46,22 @@ const Usuario = sequelize.define('Usuario', {
   pais: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
+  reset_token: DataTypes.STRING,
+  reset_expires: DataTypes.DATE,
 }, {
   tableName:   'usuarios',
   timestamps:  true,
 
   // DEFAULT SCOPE — exclui o hash das consultas comuns (findAll, etc.)
   defaultScope: {
-    attributes: { exclude: ['password'] }
+    attributes: { exclude: ['password', 'reset_token', 'reset_expires'] },
   },
 
   // HOOK beforeSave — gera hash sempre que 'password' mudar
   hooks: {
     async beforeSave(usuario) {
       if (usuario.changed('password')) {
-        // salt padrão 10; ajuste se quiser mais força (custo ↑)
         usuario.password = await bcrypt.hash(usuario.password, 10);
       }
     }

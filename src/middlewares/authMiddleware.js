@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
-    req.userId = decoded.id;
+    req.userId = decoded.userId;
     return next();
   } catch {
     return res.status(401).json({ error: 'Token inválido ou expirado.' });
