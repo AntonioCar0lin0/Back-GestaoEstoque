@@ -8,7 +8,9 @@ const app = express();
 app.use(cors());
 
 const morgan = require('morgan')
-app.use(morgan('dev'))
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 // Importa a conexão com o banco de dados
 
 // Importa nossa conexão com o banco
