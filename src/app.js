@@ -4,7 +4,12 @@
 require('dotenv').config(); 
 const express = require('express');
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
+const morgan = require('morgan')
+app.use(morgan('dev'))
+// Importa a conexão com o banco de dados
 
 // Importa nossa conexão com o banco
 const sequelize = require('./config/database');
@@ -39,7 +44,7 @@ app.use('/users', userRoutes);
 app.use('/products', productsRoutes)
 
 // iniciar o servidor
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });

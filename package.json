@@ -1,30 +1,33 @@
 {
-  "name": "marketplace-social-prefeitura-do-recife.-backend",
+  "name": "back-gestao-estoque",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MateusRiba/Marketplace-Social-Prefeitura-do-Recife.-BackEnd.git"
+    "url": "https://github.com/AntonioCar0lin0/Back-GestaoEstoque.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MateusRiba/Marketplace-Social-Prefeitura-do-Recife.-BackEnd/issues"
+    "url": "https://github.com/AntonioCar0lin0/Back-GestaoEstoque/issues"
   },
-  "homepage": "https://github.com/MateusRiba/Marketplace-Social-Prefeitura-do-Recife.-BackEnd#readme",
+  "homepage": "https://github.com/AntonioCar0lin0/Back-GestaoEstoque#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "mysql2": "^3.12.0",
     "pg": "^8.16.3",
     "sequelize": "^6.37.7"
