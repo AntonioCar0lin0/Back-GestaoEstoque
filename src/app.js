@@ -1,10 +1,10 @@
 /************************************************************
   Inicializa a aplicação e carrega as rotas da API
  ************************************************************/
-require('dotenv').config(); 
+require('dotenv').config();
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const app = express();
 app.use(cors());
 
 const morgan = require('morgan')
@@ -17,13 +17,16 @@ const sequelize = require('./config/database');
 // Importando as rotas 
 const userRoutes = require('./routes/users');
 const productsRoutes = require('./routes/products');
+const profileRoutes = require('./routes/profile');
 const authRoutes = require('./routes/auth');
+const categoryRoutes = require('./routes/category');
+
 
 // Importa os models 
-require('./models/Produto');   
-require('./models/Usuario'); 
-require('./models/Venda'); 
-require('./models/ItemVenda'); 
+require('./models/Produto');
+require('./models/Usuario');
+require('./models/Venda');
+require('./models/ItemVenda');
 
 // Sincroniza com o banco 
 sequelize.sync({ force: true })
@@ -38,10 +41,19 @@ sequelize.sync({ force: true })
 app.use(express.json());
 
 
+// Rota de teste para o CORS
+app.get('/', (req, res) => {
+  res.send('API funcionando com CORS!');
+});
+
 // Aplicando a utilização das rotas
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/products', productsRoutes)
+app.use('/api/user', profileRoutes);
+app.use('/api', categoryRoutes);
+
+
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3001;
