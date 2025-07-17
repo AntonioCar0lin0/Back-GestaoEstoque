@@ -7,6 +7,11 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
+const morgan = require('morgan')
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+// Importa a conexão com o banco de dados
 
 // Importa nossa conexão com o banco
 const sequelize = require('./config/database');
@@ -17,7 +22,10 @@ const productsRoutes = require('./routes/products');
 const profileRoutes = require('./routes/profile');
 const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
-
+const dashboardRoutes = require('./routes/dashboard');
+const analyticsRoutes = require('./routes/analytics');
+const exportRoutes = require('./routes/export');
+const transactionRoutes = require('./routes/transaction');
 
 // Importa os models 
 require('./models/Produto');
@@ -49,8 +57,10 @@ app.use('/users', userRoutes);
 app.use('/products', productsRoutes)
 app.use('/api/user', profileRoutes);
 app.use('/api', categoryRoutes);
-
-
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/export', exportRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3001;
