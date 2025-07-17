@@ -22,7 +22,10 @@ const productsRoutes = require('./routes/products');
 const profileRoutes = require('./routes/profile');
 const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
-
+const dashboardRoutes = require('./routes/dashboard');
+const analyticsRoutes = require('./routes/analytics');
+const exportRoutes = require('./routes/export');
+const transactionRoutes = require('./routes/transaction');
 
 // Importa os models 
 require('./models/Produto');
@@ -54,8 +57,10 @@ app.use('/users', userRoutes);
 app.use('/products', productsRoutes)
 app.use('/api/user', profileRoutes);
 app.use('/api', categoryRoutes);
-
-
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/export', exportRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3001;
