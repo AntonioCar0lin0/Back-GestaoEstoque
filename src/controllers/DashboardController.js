@@ -4,6 +4,8 @@
 const Produto = require('../models/Produto');
 const Venda = require('../models/Venda');
 const Transacao = require('../models/Transacao');
+const { Op } = require('sequelize');
+
 
 module.exports = {
   summary: async (req, res) => {
