@@ -34,7 +34,7 @@ require('./models/Venda');
 require('./models/ItemVenda');
 
 // Sincroniza com o banco 
-sequelize.sync({ force: true })
+sequelize.sync()
   .then(() => {
     console.log('Tabelas sincronizadas com sucesso!');
   })
