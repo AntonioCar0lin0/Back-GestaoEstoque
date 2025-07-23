@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/AntonioCar0lin0/Back-GestaoEstoque#readme",
   "dependencies": {
+    "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
@@ -32,6 +33,7 @@
     "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "nodemon": "^3.1.10",
     "pg": "^8.16.3",
     "sequelize": "^6.37.7"
   }
