@@ -26,6 +26,8 @@ const dashboardRoutes = require('./routes/dashboard');
 const analyticsRoutes = require('./routes/analytics');
 const exportRoutes = require('./routes/export');
 const transactionRoutes = require('./routes/transaction');
+const mlRoutes = require('./routes/ml');
+
 
 // Importa os models 
 require('./models/Produto');
@@ -61,6 +63,8 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/ml', mlRoutes);
+
 
 // iniciar o servidor
 const PORT = process.env.PORT || 3001;
