@@ -3,7 +3,7 @@
  ************************************************************/
 
    const Product = require('../models/Produto');
-   const { Op } = require('sequelize');
+  const { Op, literal, col } = require('sequelize');
    
    module.exports = {
      // Cria um novo produto
@@ -99,7 +99,103 @@
        } catch (error) {
          return res.status(500).json({ error: error.message });
        }
-     }
+     },
+     getProductAnalysis: async (req, res) => {
+       try {
+         // Produtos mais lucrativos
+         const mostLucrative = await Product.findAll({
+           attributes: [
+             'id',
+             'nome',
+             'preco_compra',
+             'preco_venda',
+             [literal('(preco_venda - preco_compra)'), 'lucro_unitario']
+           ],
+           where: {
+             quantidade_estoque: { [Op.gt]: 0 },
+             preco_venda: { [Op.gt]: col('preco_compra') }
+
+           },
+           order: [[literal('lucro_unitario'), 'DESC']],
+
+           limit: 3
+         });
+
+         const lowStock = await Product.findAll({
+           where: {
+             quantidade_estoque: { [Op.lte]: 10 } 
+           },
+           order: [['quantidade_estoque', 'ASC']],
+           limit: 5
+         });
+
+         const totalProducts = await Product.count();
+         const lowStockCount = await Product.count({
+           where: { quantidade_estoque: { [Op.lte]: 10 } }
+         });
+
+         return res.status(200).json({
+           produtos_mais_lucrativos: mostLucrative.map(p => ({
+             nome: p.nome,
+             lucro_unitario: parseFloat(p.getDataValue('lucro_unitario')).toFixed(2)
+           })),
+           produtos_estoque_baixo: lowStock.map(p => ({
+             nome: p.nome,
+             quantidade_estoque: p.quantidade_estoque
+           })),
+           estatisticas: {
+             total_produtos: totalProducts,
+             produtos_estoque_baixo: lowStockCount
+           }
+         });
+       } catch (error) {
+         return res.status(500).json({ error: error.message });
+       }
+     },
+       getMostLucrativeProducts: async (req, res) => {
+       try {
+         const products = await Product.findAll({
+           attributes: [
+             'id',
+             'nome',
+             'categoria',
+             'quantidade_estoque',
+             'preco_compra',
+             'preco_venda',
+             [literal('(preco_venda - preco_compra)'), 'lucro_unitario'],
+              [literal('(preco_venda - preco_compra) * quantidade_estoque'), 'lucro_total']
+
+           ],
+           where: {
+             quantidade_estoque: {
+               [Op.gt]: 0 
+             },
+             preco_venda: {
+              [Op.gt]: col('preco_compra')
+            }
+           },
+           order:  [[literal('lucro_unitario'), 'DESC']],
+           limit: 3
+         });
+
+         const formattedProducts = products.map(product => ({
+           id: product.id,
+           nome: product.nome,
+           categoria: product.categoria,
+           quantidade_estoque: product.quantidade_estoque,
+           preco_compra: parseFloat(product.preco_compra),
+           preco_venda: parseFloat(product.preco_venda),
+           lucro_unitario: parseFloat(product.getDataValue('lucro_unitario')).toFixed(2),
+           lucro_total: parseFloat(product.getDataValue('lucro_total')).toFixed(2)
+         }));
+   
+         return res.status(200).json(formattedProducts);
+       } catch (error) {
+         return res.status(500).json({ error: error.message });
+       }
+     
+      }
+   
    }; 
 
 

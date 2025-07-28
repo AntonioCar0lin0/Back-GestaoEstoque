@@ -15,6 +15,10 @@ router.post('/', ProductController.createProduct);
 //Busca e lista todos os produtos
 router.get('/', ProductController.getAllProducts)
 
+// Rotas de análise de produtos
+router.get('/analysis/most-lucrative', ProductController.getMostLucrativeProducts);
+router.get('/analysis/dashboard', ProductController.getProductAnalysis);
+
 //Busca produtos por ID
 router.get('/:id', ProductController.getProductById)
 
@@ -23,6 +27,7 @@ router.put('/:id', ProductController.updateProduct)
 
 //Deleta um produto por ID 
 router.delete('/:id', ProductController.deleteProduct)
+
 
 
 // Exportamos o router para ser usado no app.js
