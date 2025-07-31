@@ -75,7 +75,7 @@ async function seed() {
       usuarios[u.nome] = usuario;
     }
 
-    // === Vendas e Itens ===
+    // === Vendas e Transações ===
     const vendas = [
       {
         usuario: 'João Silva',
@@ -121,6 +121,7 @@ async function seed() {
 
       for (const item of v.itens) {
         const p = produtos[item.produto];
+
         await ItemVenda.create({
           quantidade: item.qtd,
           preco_unitario: p.preco_venda,
@@ -129,18 +130,32 @@ async function seed() {
           id_venda: venda.id
         });
 
+        const diasAtras = Math.floor(Math.random() * 30);
+        const dataTransacao = new Date(Date.now() - diasAtras * 24 * 60 * 60 * 1000);
+
+        // Receita com label claro
         await Transacao.create({
           tipo: 'receita',
           valor: item.qtd * parseFloat(p.preco_venda),
-          descricao: `Venda de ${item.qtd}x ${p.nome}`,
+          descricao: `Venda - ${v.usuario}: ${item.qtd}x ${p.nome}`,
           categoria: p.categoria,
-          data: new Date(),
+          data: dataTransacao,
+          produtoId: p.id
+        });
+
+        // Despesa com label específico
+        await Transacao.create({
+          tipo: 'despesa',
+          valor: parseFloat(p.preco_compra) * (Math.random() * 3 + 1),
+          descricao: `Despesa operacional - Estoque ${p.nome}`,
+          categoria: p.categoria,
+          data: dataTransacao,
           produtoId: p.id
         });
       }
     }
 
-    console.log('✅ Seed populado com sucesso com mais dados!');
+    console.log('✅ Seed populado com sucesso com receitas e despesas distribuídas!');
   } catch (err) {
     console.error('❌ Erro no seed:', err);
   } finally {
