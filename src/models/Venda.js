@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Usuario = require('./Usuario');
+// Usuario não precisa ser importado aqui, pois as associações serão centralizadas
 
 const Venda = sequelize.define('Venda', {
   id: {
@@ -29,8 +29,7 @@ const Venda = sequelize.define('Venda', {
   timestamps: true
 });
 
-// Relacionamento
-Venda.belongsTo(Usuario, { foreignKey: 'id_usuario' });
-Usuario.hasMany(Venda, { foreignKey: 'id_usuario' });
+// Relacionamento com Usuario será definido em index.js
+// Venda.belongsTo(Usuario, { foreignKey: 'id_usuario' }); // Removido daqui
 
 module.exports = Venda;

@@ -19,17 +19,23 @@ const Transacao = sequelize.define('Transacao', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  categoria: {
-    type: DataTypes.STRING,
+  // Removido 'categoria' string, será uma chave estrangeira
+  id_categoria: { // Nova chave estrangeira para Categoria
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   data: {
     type: DataTypes.DATEONLY,
     allowNull: false
   },
-  produtoId: {
+  // Removido 'produtoId', será uma chave estrangeira formal
+  id_produto: { // Nova chave estrangeira para Produto
     type: DataTypes.INTEGER,
     allowNull: true
+  },
+  id_usuario: { // Nova chave estrangeira para Usuario (cliente)
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 }, {
   tableName: 'transacoes',

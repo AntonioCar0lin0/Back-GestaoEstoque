@@ -1,11 +1,13 @@
 //realizar alteraçoes necessarias posteriormente
+ // Assuming sequelize is imported from models
+const Venda = require('../models/Venda'); // Assuming Venda model is imported
 
 exports.timeSeries = async (req, res) => {
   try {
     const vendas = await Venda.findAll({
       attributes: [
         [sequelize.fn('date_trunc', 'month', sequelize.col('data_venda')), 'mes'],
-        [sequelize.fn('sum', sequelize.col('valor')), 'total_vendas'],
+        [sequelize.fn('sum', sequelize.col('receita')), 'total_vendas'], // Alterado aqui
       ],
       group: [sequelize.fn('date_trunc', 'month', sequelize.col('data_venda'))],
       order: [[sequelize.fn('date_trunc', 'month', sequelize.col('data_venda')), 'ASC']],
@@ -21,7 +23,7 @@ exports.timeSeries = async (req, res) => {
 exports.predictions = async (req, res) => {
   try {
     const vendas = await Venda.findAll({
-      attributes: [[sequelize.fn('sum', sequelize.col('valor')), 'total_vendas']],
+      attributes: [[sequelize.fn('sum', sequelize.col('receita')), 'total_vendas']], // Alterado aqui
       group: ['data_venda'],
       order: [['data_venda', 'ASC']],
     });

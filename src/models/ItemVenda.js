@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Produto = require('./Produto');
-const Venda = require('./Venda');
+// Produto e Venda não precisam ser importados aqui, pois as associações serão centralizadas
 
 const ItemVenda = sequelize.define('ItemVenda', {
   quantidade: {
@@ -20,12 +19,5 @@ const ItemVenda = sequelize.define('ItemVenda', {
   tableName: 'itens_venda',
   timestamps: true
 });
-
-// Relacionamentos
-ItemVenda.belongsTo(Produto, { foreignKey: 'id_produto' });
-ItemVenda.belongsTo(Venda, { foreignKey: 'id_venda' });
-
-Produto.hasMany(ItemVenda, { foreignKey: 'id_produto' });
-Venda.hasMany(ItemVenda, { foreignKey: 'id_venda' });
 
 module.exports = ItemVenda;

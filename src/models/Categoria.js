@@ -17,7 +17,7 @@ const Categoria = sequelize.define('Categoria', {
     allowNull: true,
   },
   color: {
-    type: DataTypes.STRING(7), // ex: "#FF0000"
+    type: DataTypes.STRING(7), 
     allowNull: true,
     validate: {
       is: /^#([0-9A-F]{3}){1,2}$/i
