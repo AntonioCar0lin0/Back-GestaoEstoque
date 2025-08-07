@@ -69,7 +69,6 @@ const Usuario = sequelize.define('Usuario', {
 });
 
 // MÉTODO DE INSTÂNCIA — compara senha em texto-plano com o hash salvo
-
 Usuario.prototype.checkPassword = function (passwordEmTexto) {
   return bcrypt.compare(passwordEmTexto, this.password);
 };

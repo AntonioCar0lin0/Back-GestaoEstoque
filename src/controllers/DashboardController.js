@@ -4,6 +4,8 @@
 const Produto = require('../models/Produto');
 const Venda = require('../models/Venda');
 const Transacao = require('../models/Transacao');
+const Categoria = require('../models/Categoria');
+const Usuario = require('../models/Usuario');
 const { Op } = require('sequelize');
 
 
@@ -19,7 +21,12 @@ module.exports = {
 
       const recentTransactions = await Transacao.findAll({
         limit: 5,
-        order: [['data', 'DESC']]
+        order: [['data', 'DESC']],
+        include: [
+          { model: Usuario, attributes: ['nome'] },
+          { model: Categoria, attributes: ['nome'] },
+          { model: Produto, attributes: ['nome'], required: false }
+        ]
       });
 
       return res.status(200).json({
