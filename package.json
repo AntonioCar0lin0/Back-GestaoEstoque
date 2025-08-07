@@ -8,7 +8,14 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:auth": "jest src/tests/auth.test.js",
+    "test:products": "jest src/tests/products.test.js",
+    "test:transactions": "jest src/tests/transactions.test.js",
+    "test:categories": "jest src/tests/categories.test.js",
+    "test:integration": "jest src/tests/integration.test.js",
     "dev": "nodemon src/app.js",
     "seed": "node src/scripts/seed.js"
   },
@@ -35,5 +42,9 @@
     "nodemon": "^3.1.10",
     "pg": "^8.16.3",
     "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "jest": "^30.0.5",
+    "supertest": "^7.1.4"
   }
 }

@@ -4,7 +4,6 @@ Realiza a configuração / conexão com o database através da biblioteca Sequel
 const { Sequelize } = require('sequelize');
 
 require('dotenv').config();
-console.log('DB_DIALECT:', process.env.DB_DIALECT);
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, { //Nome do banco, usuario e senha do .env
   host: process.env.DB_HOST,
@@ -18,6 +17,9 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     }
   }
 });
+
+
+
 // Teste de conexão padrão e mensagem de erro
 sequelize
   .authenticate()

@@ -29,11 +29,8 @@ const transactionRoutes = require('./routes/transaction');
 const mlRoutes = require('./routes/ml');
 
 
-// Importa os models 
-require('./models/Produto');
-require('./models/Usuario');
-require('./models/Venda');
-require('./models/ItemVenda');
+// Importa os models e suas associações
+require('./models/Index');
 
 // Sincroniza com o banco 
 sequelize.sync()
@@ -62,7 +59,8 @@ app.use('/api', categoryRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/export', exportRoutes);
-app.use('/api/transactions', transactionRoutes);
+app.use('/transactions', transactionRoutes);
+app.use('/categories',categoryRoutes);
 app.use('/api/ml', mlRoutes);
 
 

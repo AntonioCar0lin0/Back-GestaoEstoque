@@ -19,8 +19,7 @@ const Transacao = sequelize.define('Transacao', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  // Removido 'categoria' string, será uma chave estrangeira
-  id_categoria: { // Nova chave estrangeira para Categoria
+  id_categoria: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
@@ -28,12 +27,11 @@ const Transacao = sequelize.define('Transacao', {
     type: DataTypes.DATEONLY,
     allowNull: false
   },
-  // Removido 'produtoId', será uma chave estrangeira formal
-  id_produto: { // Nova chave estrangeira para Produto
+  id_produto: {
     type: DataTypes.INTEGER,
     allowNull: true
   },
-  id_usuario: { // Nova chave estrangeira para Usuario (cliente)
+  id_usuario: {
     type: DataTypes.INTEGER,
     allowNull: false
   }
@@ -41,5 +39,18 @@ const Transacao = sequelize.define('Transacao', {
   tableName: 'transacoes',
   timestamps: true
 });
+
+
+Transacao.associate = function(models) {
+  Transacao.belongsTo(models.Usuario, {
+    foreignKey: 'id_usuario'
+  });
+  Transacao.belongsTo(models.Categoria, {
+    foreignKey: 'id_categoria'
+  });
+  Transacao.belongsTo(models.Produto, {
+    foreignKey: 'id_produto'
+  });
+};
 
 module.exports = Transacao;

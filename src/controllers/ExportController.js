@@ -2,11 +2,11 @@
    Funções para exportar produtos, transações e relatórios
  ************************************************************/
 const { Parser } = require('json2csv');
+const { Op } = require('sequelize');
 const Produto = require('../models/Produto');
 const Transacao = require('../models/Transacao');
 const Categoria = require('../models/Categoria');
 const Usuario = require('../models/Usuario');
-const moment = require('moment');
 
 module.exports = {
   exportProducts: async (req, res) => {

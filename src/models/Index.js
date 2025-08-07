@@ -12,7 +12,8 @@ Venda.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
 // 2. Produto e Categoria
 Categoria.hasMany(Produto, { foreignKey: 'id_categoria' });
-Produto.belongsTo(Categoria, { foreignKey: 'id_categoria' });
+Produto.belongsTo(Categoria, {foreignKey: 'id_categoria', as: 'Categoria'});
+
 
 // 3. Transacao e Categoria
 Categoria.hasMany(Transacao, { foreignKey: 'id_categoria' });
@@ -28,7 +29,7 @@ Transacao.belongsTo(Produto, { foreignKey: 'id_produto' });
 
 // 6. Produto e Usuario (criador do produto)
 Usuario.hasMany(Produto, { foreignKey: 'id_usuario_criador' });
-Produto.belongsTo(Usuario, { foreignKey: 'id_usuario_criador' });
+Produto.belongsTo(Usuario, { foreignKey: 'id_usuario_criador', as: 'UsuarioCriador' });
 
 // 7. ItemVenda, Produto e Venda
 Produto.hasMany(ItemVenda, { foreignKey: 'id_produto' });
@@ -37,12 +38,13 @@ ItemVenda.belongsTo(Produto, { foreignKey: 'id_produto' });
 Venda.hasMany(ItemVenda, { foreignKey: 'id_venda' });
 ItemVenda.belongsTo(Venda, { foreignKey: 'id_venda' });
 
+const models = { Produto, Usuario, Venda, ItemVenda, Categoria, Transacao };
 
-module.exports = {
-  Produto,
-  Usuario,
-  Venda,
-  ItemVenda,
-  Categoria,
-  Transacao
-};
+Object.values(models).forEach(model => {
+  if (typeof model.associate === 'function') {
+    model.associate(models);
+  }
+});
+
+
+module.exports = models;

@@ -1,6 +1,7 @@
 //realizar alteraçoes necessarias posteriormente
- // Assuming sequelize is imported from models
-const Venda = require('../models/Venda'); // Assuming Venda model is imported
+const { Sequelize } = require('sequelize');
+const sequelize = require('../config/database');
+const Venda = require('../models/Venda');
 
 exports.timeSeries = async (req, res) => {
   try {

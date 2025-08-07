@@ -59,6 +59,11 @@ async function seed() {
         nome: 'Carlos Lima', email: 'carlos@example.com', cpf: '11122233344',
         senha: 'abc123', nascimento: '1995-07-10', rua: 'Rua do Sol', cidade: 'Olinda',
         bairro: 'Carmo', pais: 'Brasil'
+      },
+      {
+        nome: 'Usuario Teste', email: 'teste@example.com', cpf: '12345678900',
+        senha: '1234567', nascimento: '1990-01-01', rua: 'Rua de Teste', cidade: 'Recife',
+        bairro: 'Centro', pais: 'Brasil'
       }
     ];
 

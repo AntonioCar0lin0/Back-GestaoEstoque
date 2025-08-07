@@ -6,7 +6,7 @@ require('dotenv').config();                       // garante JWT_SECRET
 
 
 const TOKEN_LIFETIME = 30 * 60 * 1000;            // 30 min em milissegundos
-const FRONT_URL      = process.env.FRONT_URL || 'http://localhost:3000';
+const FRONT_URL     = 'http://localhost:3000';
 
 module.exports = {
   //  POST /auth/register

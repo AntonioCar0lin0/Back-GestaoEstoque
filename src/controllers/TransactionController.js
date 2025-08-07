@@ -9,7 +9,8 @@ module.exports = {
   async list(req, res) {
     try {
       const { startDate, endDate, type } = req.query;
-      const where = {};
+      const userId = req.userId;
+      const where = { id_usuario: userId };
 
       if (startDate && endDate) {
         where.data = { [Op.between]: [startDate, endDate] };

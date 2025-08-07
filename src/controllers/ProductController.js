@@ -46,7 +46,7 @@ module.exports = {
     try {
       const products = await Product.findAll({
         include: [
-          { model: Categoria, attributes: ['nome', 'description', 'color'] },
+          { model: Categoria, as: 'Categoria', attributes: ['nome', 'description', 'color'] },
           { model: Usuario, as: 'UsuarioCriador', attributes: ['nome', 'email'] } // 'as' é importante se houver múltiplas associações com Usuario
         ]
       });
@@ -67,7 +67,7 @@ module.exports = {
 
       const product = await Product.findByPk(id, {
         include: [
-          { model: Categoria, attributes: ['nome', 'description', 'color'] },
+          { model: Categoria, as: 'Categoria', attributes: ['nome', 'description', 'color'] },
           { model: Usuario, as: 'UsuarioCriador', attributes: ['nome', 'email'] }
         ]
       });
