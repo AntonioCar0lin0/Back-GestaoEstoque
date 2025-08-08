@@ -26,10 +26,28 @@ const Produto = sequelize.define('Produto', {
   preco_venda: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
+  },
+  // NOVO: relacionamento com Usuario
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'usuarios', key: 'id' },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   }
 }, {
   tableName: 'produtos',
-  timestamps: true
+  timestamps: true,
+  indexes: [
+    { fields: ['userId'] },
+    { fields: ['categoria'] },
+  ],
 });
+
+// Opcional: associe no registry de models
+Produto.associate = (models) => {
+  Produto.belongsTo(models.Usuario, { foreignKey: 'userId', as: 'usuario' });
+  Produto.hasMany(models.Transacao, { foreignKey: 'produtoId', as: 'transacoes' });
+};
 
 module.exports = Produto;

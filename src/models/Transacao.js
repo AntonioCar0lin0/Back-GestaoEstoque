@@ -30,10 +30,29 @@ const Transacao = sequelize.define('Transacao', {
   produtoId: {
     type: DataTypes.INTEGER,
     allowNull: true
+  },
+  // NOVO: relacionamento com Usuario
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'usuarios', key: 'id' },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   }
 }, {
   tableName: 'transacoes',
-  timestamps: true
+  timestamps: true,
+  indexes: [
+    { fields: ['userId'] },
+    { fields: ['produtoId'] },
+    { fields: ['data'] },
+  ],
 });
+
+// Opcional: associe no registry de models
+Transacao.associate = (models) => {
+  Transacao.belongsTo(models.Usuario, { foreignKey: 'userId', as: 'usuario' });
+  Transacao.belongsTo(models.Produto, { foreignKey: 'produtoId', as: 'produto' });
+};
 
 module.exports = Transacao;

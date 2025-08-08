@@ -5,11 +5,13 @@ const { Parser } = require('json2csv');
 const Produto = require('../models/Produto');
 const Transacao = require('../models/Transacao');
 const moment = require('moment');
+const { Op } = require('sequelize'); // CHANGE: importar Op para filtro por período
 
 module.exports = {
   exportProducts: async (req, res) => {
     try {
-      const produtos = await Produto.findAll();
+      // CHANGE: exportar somente produtos do usuário autenticado
+      const produtos = await Produto.findAll({ where: { userId: req.userId } });
       const csv = new Parser().parse(produtos);
 
       res.header('Content-Type', 'text/csv');
@@ -24,7 +26,8 @@ module.exports = {
     try {
       const { startDate, endDate } = req.query;
 
-      const where = {};
+      // CHANGE: exportar somente transações do usuário autenticado (e período opcional)
+      const where = { userId: req.userId };
       if (startDate && endDate) {
         where.data = {
           [Op.between]: [startDate, endDate]
@@ -44,7 +47,8 @@ module.exports = {
 
   exportReport: async (req, res) => {
     try {
-      const transacoes = await Transacao.findAll();
+      // CHANGE: exportar relatório somente com dados do usuário autenticado
+      const transacoes = await Transacao.findAll({ where: { userId: req.userId } });
       const csv = new Parser().parse(transacoes);
 
       res.header('Content-Type', 'text/csv');

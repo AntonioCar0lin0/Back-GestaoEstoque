@@ -6,7 +6,8 @@ module.exports = {
   async list(req, res) {
     try {
       const { startDate, endDate, type } = req.query;
-      const where = {};
+      // CHANGE: base de filtro pelo usuário autenticado
+      const where = { userId: req.userId };
 
       if (startDate && endDate) {
         where.data = { [Op.between]: [startDate, endDate] };
@@ -21,18 +22,21 @@ module.exports = {
       return res.status(500).json({ error: err.message });
     }
   },
-    async getById(req, res) {
+
+  async getById(req, res) {
     try {
-        const { id } = req.params;
-        const transacao = await Transacao.findByPk(id);
-        if (!transacao) {
+      const { id } = req.params;
+      // CHANGE: garantir que a transação pertence ao usuário autenticado
+      const transacao = await Transacao.findOne({ where: { id, userId: req.userId } });
+      if (!transacao) {
         return res.status(404).json({ error: 'Transação não encontrada.' });
-        }
-        return res.json({ success: true, transaction: transacao });
+      }
+      return res.json({ success: true, transaction: transacao });
     } catch (err) {
-        return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
-    },
+  },
+
   async create(req, res) {
     try {
       const { tipo, valor, descricao, categoria, data, produtoId } = req.body;
@@ -46,7 +50,8 @@ module.exports = {
         descricao,
         categoria,
         data,
-        produtoId: produtoId || null
+        produtoId: produtoId || null,
+        userId: req.userId, // CHANGE: associar a transação ao usuário autenticado
       });
 
       return res.status(201).json({ success: true, transaction: nova });
@@ -58,7 +63,8 @@ module.exports = {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const transacao = await Transacao.findByPk(id);
+      // CHANGE: atualizar somente transação do usuário autenticado
+      const transacao = await Transacao.findOne({ where: { id, userId: req.userId } });
       if (!transacao) return res.status(404).json({ error: 'Transação não encontrada.' });
 
       await transacao.update(req.body);
@@ -71,7 +77,8 @@ module.exports = {
   async remove(req, res) {
     try {
       const { id } = req.params;
-      const transacao = await Transacao.findByPk(id);
+      // CHANGE: deletar somente transação do usuário autenticado
+      const transacao = await Transacao.findOne({ where: { id, userId: req.userId } });
       if (!transacao) return res.status(404).json({ error: 'Transação não encontrada.' });
 
       await transacao.destroy();

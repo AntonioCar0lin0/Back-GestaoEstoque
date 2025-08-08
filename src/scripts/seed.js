@@ -1,17 +1,20 @@
 const sequelize = require('../config/database');
-const Categoria = require('../models/Categoria');
-const Produto = require('../models/Produto');
-const Usuario = require('../models/Usuario');
-const Venda = require('../models/Venda');
-const ItemVenda = require('../models/ItemVenda');
-const Transacao = require('../models/Transacao');
+const Categoria = require = ('../models/Categoria');
+const Produto = require = ('../models/Produto');
+const Usuario = require = ('../models/Usuario');
+const Venda = require = ('../models/Venda');
+const ItemVenda = require = ('../models/ItemVenda');
+const Transacao = require = ('../models/Transacao');
 
 async function seed() {
   try {
-    await sequelize.sync(); // Sem apagar nada
+    // Sincroniza o banco de dados sem apagar dados existentes.
+    await sequelize.sync(); 
 
     // === Categorias ===
+    // Array com os nomes das categorias.
     const categoriasData = ['Alimentos', 'Bebidas', 'Limpeza', 'Higiene', 'Papelaria', 'Petshop'];
+    // Objeto para armazenar as instâncias das categorias, com o nome como chave.
     const categorias = {};
     for (const nome of categoriasData) {
       const [cat] = await Categoria.findOrCreate({ where: { nome } });
@@ -19,6 +22,7 @@ async function seed() {
     }
 
     // === Produtos ===
+    // Array com os dados dos produtos.
     const produtosData = [
       { nome: 'Arroz', categoria: 'Alimentos', estoque: 200, compra: 3.20, venda: 5.00 },
       { nome: 'Feijão', categoria: 'Alimentos', estoque: 150, compra: 4.00, venda: 6.50 },
@@ -29,12 +33,16 @@ async function seed() {
       { nome: 'Ração gato 10kg', categoria: 'Petshop', estoque: 30, compra: 70.00, venda: 120.00 }
     ];
 
+    // Objeto para armazenar as instâncias dos produtos.
     const produtos = {};
     for (const p of produtosData) {
+      // Busca a instância da categoria usando o nome.
+      const categoriaObj = categorias[p.categoria];
       const [prod] = await Produto.findOrCreate({
         where: { nome: p.nome },
         defaults: {
-          categoria: p.categoria,
+          // CORREÇÃO: Usar o ID da categoria, não o nome.
+          id_categoria: categoriaObj.id,
           quantidade_estoque: p.estoque,
           preco_compra: p.compra,
           preco_venda: p.venda
@@ -138,7 +146,8 @@ async function seed() {
           tipo: 'receita',
           valor: item.qtd * parseFloat(p.preco_venda),
           descricao: `Venda - ${v.usuario}: ${item.qtd}x ${p.nome}`,
-          categoria: p.categoria,
+          // CORREÇÃO: Obter o ID da categoria do produto
+          categoriaId: p.id_categoria,
           data: dataTransacao,
           produtoId: p.id
         });
@@ -148,7 +157,8 @@ async function seed() {
           tipo: 'despesa',
           valor: parseFloat(p.preco_compra) * (Math.random() * 3 + 1),
           descricao: `Despesa operacional - Estoque ${p.nome}`,
-          categoria: p.categoria,
+          // CORREÇÃO: Obter o ID da categoria do produto
+          categoriaId: p.id_categoria,
           data: dataTransacao,
           produtoId: p.id
         });

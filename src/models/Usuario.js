@@ -52,13 +52,9 @@ const Usuario = sequelize.define('Usuario', {
 }, {
   tableName:   'usuarios',
   timestamps:  true,
-
-  // DEFAULT SCOPE — exclui o hash das consultas comuns (findAll, etc.)
   defaultScope: {
     attributes: { exclude: ['password', 'reset_token', 'reset_expires'] },
   },
-
-  // HOOK beforeSave — gera hash sempre que 'password' mudar
   hooks: {
     async beforeSave(usuario) {
       if (usuario.changed('password')) {
@@ -68,10 +64,15 @@ const Usuario = sequelize.define('Usuario', {
   }
 });
 
-// MÉTODO DE INSTÂNCIA — compara senha em texto-plano com o hash salvo
-
+// Método de instância para comparar senha
 Usuario.prototype.checkPassword = function (passwordEmTexto) {
   return bcrypt.compare(passwordEmTexto, this.password);
+};
+
+// Opcional: associe no registry de models
+Usuario.associate = (models) => {
+  Usuario.hasMany(models.Produto,   { foreignKey: 'userId', as: 'produtos' });
+  Usuario.hasMany(models.Transacao, { foreignKey: 'userId', as: 'transacoes' });
 };
 
 module.exports = Usuario;
