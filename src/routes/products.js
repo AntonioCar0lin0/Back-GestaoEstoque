@@ -15,6 +15,10 @@ router.post('/', ProductController.createProduct);
 //Busca e lista todos os produtos
 router.get('/', ProductController.getAllProducts)
 
+// Rotas de análise para dashboard (DEVEM vir antes de /:id)
+router.get('/analysis/dashboard', ProductController.getDashboardAnalysis);
+router.get('/analysis/most-lucrative', ProductController.getMostLucrativeProducts);
+
 //Busca produtos por ID
 router.get('/:id', ProductController.getProductById)
 

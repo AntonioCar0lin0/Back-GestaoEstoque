@@ -8,4 +8,7 @@ router.get('/time-series', AnalyticsController.timeSeries);
 // Previsões: /api/analytics/predictions
 router.get('/predictions', AnalyticsController.predictions);
 
+// Recomendações de IA: /api/analytics/recomendacoes
+router.get('/recomendacoes', AnalyticsController.getRecommendations);
+
 module.exports = router;
